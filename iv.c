@@ -1,3 +1,5 @@
+#include <SDL_pixels.h>
+#include <SDL_stdinc.h>
 #include <SDL_surface.h>
 #include <SDL_video.h>
 #include <stdio.h>
@@ -14,23 +16,26 @@ int main() {
 
 
 	SDL_Surface *psurface = SDL_GetWindowSurface(pwindow); // from window struct returns p to surface area 
-	
-	SDL_FillRect(psurface, NULL, 0xFFFFFFFF);
 
+	Uint8 r,g,b;
+	r = 0x00;
+	g = b = 0;
+
+	Uint32 colour = SDL_MapRGB(psurface->format,r,g,b); // the -> syntax is sugar for (*ptr).field
+	
+	SDL_FillRect(psurface, NULL, colour);
+
+
+	
 	SDL_Event e;
 	int running = 1;
-	uint32_t colour = 0x00000000; 
 
 	while (running) {
 		while (SDL_PollEvent(&e)) { // each loop see if event has occured
 			if (e.type == SDL_QUIT) running = 0;
 		}
 
-		SDL_FillRect(psurface, NULL, colour);
 		SDL_UpdateWindowSurface(pwindow);
-		colour++;
-
-		printf("%d\n", colour);
 	}
 }
 

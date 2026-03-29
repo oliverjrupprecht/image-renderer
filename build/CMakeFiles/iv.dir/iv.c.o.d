@@ -1,6 +1,6 @@
 CMakeFiles/iv.dir/iv.c.o: \
   /Users/ollierupprecht/Workspace/github.com/oliverjrupprecht/image_viewer/iv.c \
-  /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_surface.h \
+  /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_pixels.h \
   /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_stdinc.h \
   /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_config.h \
   /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_platform.h \
@@ -173,8 +173,8 @@ CMakeFiles/iv.dir/iv.c.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/math.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/float.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/float.h \
-  /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_pixels.h \
   /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_endian.h \
+  /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_surface.h \
   /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_rect.h \
   /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_error.h \
   /opt/homebrew/Cellar/sdl2/2.32.10/include/SDL2/SDL_rwops.h \
