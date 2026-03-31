@@ -5,9 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
-#define WINDOW_HEIGHT 600
-#define WINDOW_WIDTH 600
-
+//
 // TODO: currently does not support comments hahaha
 
 int main() {
@@ -52,11 +50,10 @@ int main() {
 
 	Uint8 r,g,b;
 	Uint32 colour; 
-	int offset; // each pixel has three values
 	int i = 0; // index of blob
 
-	for (int x = 0; x < width; x++) {
-		for (int y = 0; y < height; y++) { // each pixel has rgb value therfore offset should be 3
+	for (int x = 0; x < height; x++) {
+		for (int y = 0; y < width; y++) { // each pixel has rgb value therfore offset should be 3
 			r = blob[i];
 			g = blob[i+1];
 			b = blob[i+2];
@@ -71,6 +68,9 @@ int main() {
 		}
 	}
 
+
+	SDL_UpdateWindowSurface(pwindow);
+
 	SDL_Event e;
 	int running = 1;
 	while (running) {
@@ -78,6 +78,5 @@ int main() {
 			if (e.type == SDL_QUIT) running = 0;
 		}
 
-		SDL_UpdateWindowSurface(pwindow);
 	}
 }
