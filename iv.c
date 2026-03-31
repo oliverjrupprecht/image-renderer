@@ -5,32 +5,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
-//
 // TODO: currently does not support comments hahaha
 
 int main() {
 	FILE* fp = stdin;
 
-	char* bin = malloc(256);
-	if (fgets(bin, 256, fp) == NULL) {
-		printf("failed to read data format");
-		return 0;
-	}
+	char** header = malloc(sizeof(char*)*3); // 
+	int lc = 0;
 
-	char* resolution = malloc(256);
-	if (fgets(resolution, 256, fp) == NULL) {
-		fprintf(stderr, "failed to read resolution");
-		return 0;
-	}
+	while (lc < 3) { // this section reads in the header ignoring comment lines
+		char* buff = malloc(256);
 
-	if (fgets(bin, 256, fp) == NULL) { 
-		printf("failed to read data format");
-		return 0;
+		if (fgets(buff, 256, fp) == NULL) {
+			switch (lc) {
+				case 0:
+					printf("failed to read format");
+				case 1: 
+					printf("failed to read resolution");
+				case 2: 
+					printf("failed to read colours");
+			}
+			return 0;
+		}
+
+		if (buff[0] != '#') {
+			header[lc++] = buff; // if its not a commented line then add it to header
+		} else {
+			free(buff);
+		}
 	}
 
 	// header read in
 	int width, height;
-	if (sscanf(resolution, "%d %d\n", &width, &height) != 2) { // parse resolution values
+	if (sscanf(header[1], "%d %d\n", &width, &height) != 2) { // parse resolution values
 		printf("failed to read data format");
 		return 0;
 	}
