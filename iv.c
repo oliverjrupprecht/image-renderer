@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
-// TODO: currently does not support comments hahaha
 
 int main() {
 	FILE* fp = stdin;
@@ -52,8 +51,8 @@ int main() {
 	SDL_Window *pwindow = SDL_CreateWindow("Image Viewer", // creates window struct returns point to it 
 					SDL_WINDOWPOS_CENTERED,
 					SDL_WINDOWPOS_CENTERED,
-					height,
 					width,
+					height,
 					0);  // no flags needed
 
 	SDL_Surface *psurface = SDL_GetWindowSurface(pwindow); // from window struct returns p to surface area 
