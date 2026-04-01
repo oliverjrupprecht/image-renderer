@@ -10,7 +10,7 @@
 int main() {
 	FILE* fp = stdin;
 
-	char** header = malloc(sizeof(char*)*3); // 
+	char** header = malloc(sizeof(char*)*3);
 	int lc = 0;
 
 	while (lc < 3) { // this section reads in the header ignoring comment lines
@@ -34,8 +34,12 @@ int main() {
 			free(buff);
 		}
 	}
+	
+	for (int i = 0; i < 3; i++) {
+		printf("%s\n", header[i]);
+	}
 
-	// header read in
+	// read in width and height of photo
 	int width, height;
 	if (sscanf(header[1], "%d %d\n", &width, &height) != 2) { // parse resolution values
 		printf("failed to read data format");
@@ -53,37 +57,35 @@ int main() {
 					0);  // no flags needed
 
 	SDL_Surface *psurface = SDL_GetWindowSurface(pwindow); // from window struct returns p to surface area 
+	
 	SDL_Rect pixel = (SDL_Rect){0,0,1,1}; // compound literal and casting it to rect type
-
 	Uint8 r,g,b;
 	Uint32 colour; 
-	int i = 0; // index of blob
 
-	for (int x = 0; x < height; x++) {
-		for (int y = 0; y < width; y++) { // each pixel has rgb value therfore offset should be 3
-			r = blob[i];
-			g = blob[i+1];
-			b = blob[i+2];
+	int i = 0; // index in blob
 
-			colour = SDL_MapRGB(psurface->format,r,g,b); 
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) { 
+			colour = SDL_MapRGB(psurface->format,
+		       				blob[i+2], // rgb
+						blob[i+2],
+		       				blob[i+2]); 
 
 			pixel.x = x; // updates x,y each pixel
 			pixel.y = y;
-
 			SDL_FillRect(psurface, &pixel, colour); 
 			i += 3;
 		}
 	}
 
-
 	SDL_UpdateWindowSurface(pwindow);
 
+	// MacOS requires program to poll the UI loop to stay visible
 	SDL_Event e;
 	int running = 1;
 	while (running) {
-		while (SDL_PollEvent(&e)) { // each loop see if event has occured
+		while (SDL_PollEvent(&e)) { 
 			if (e.type == SDL_QUIT) running = 0;
 		}
-
 	}
 }
