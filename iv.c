@@ -9,54 +9,56 @@
 int main() {
 	FILE* fp = stdin;
 
+	/* read in header values, ignoring comment lines */
 	char** header = malloc(sizeof(char*)*3);
 	int lc = 0;
 
-	while (lc < 3) { // this section reads in the header ignoring comment lines
+	while (lc < 3) { 
 		char* buff = malloc(256);
 
 		if (fgets(buff, 256, fp) == NULL) {
 			switch (lc) {
 				case 0:
-					printf("failed to read format");
+					printf("failed to read format\n");
 				case 1: 
-					printf("failed to read resolution");
+					printf("failed to read resolution\n");
 				case 2: 
-					printf("failed to read colours");
+					printf("failed to read colours\n");
 			}
 			return 0;
 		}
 
-		if (buff[0] != '#') {
-			header[lc++] = buff; // if its not a commented line then add it to header
+		if (buff[0] != '#') { // skip comment lines, freeing temp buffer
+			header[lc++] = buff; 
 		} else {
 			free(buff);
 		}
 	}
-	
-	for (int i = 0; i < 3; i++) {
-		printf("%s\n", header[i]);
-	}
 
-	// read in width and height of photo
+	/* extrapolate width and height dimension*/
 	int width, height;
-	if (sscanf(header[1], "%d %d\n", &width, &height) != 2) { // parse resolution values
-		printf("failed to read data format");
+	if (sscanf(header[1], "%d %d\n", &width, &height) != 2) { 
+		printf("failed to read data format\n");
 		return 0;
 	}
 	
-	Uint8* blob = malloc(width * height * 3); // extrapolate binary blob size
-	fread(blob, 3, width * height, fp); // read in the bin blob
+	/* allocate space for binary blob and read in */
+	Uint8* blob = malloc(width * height * 3); 
+	if (fread(blob, 3, width * height, fp) < width * height) { 
+		printf("binary read failed\n");
+	}
 
-	SDL_Window *pwindow = SDL_CreateWindow("Image Viewer", // creates window struct returns point to it 
+	/* create window struct */
+	SDL_Window *pwindow = SDL_CreateWindow("Image Viewer", 
 					SDL_WINDOWPOS_CENTERED,
 					SDL_WINDOWPOS_CENTERED,
 					width,
 					height,
 					0);  // no flags needed
 
-	SDL_Surface *psurface = SDL_GetWindowSurface(pwindow); // from window struct returns p to surface area 
+	SDL_Surface *psurface = SDL_GetWindowSurface(pwindow); 
 	
+	/* render */
 	SDL_Rect pixel = (SDL_Rect){0,0,1,1}; // compound literal and casting it to rect type
 	Uint8 r,g,b;
 	Uint32 colour; 
@@ -70,8 +72,8 @@ int main() {
 						blob[i+1], // g
 		       				blob[i+2]); // b
 
-			pixel.x = x; // updates x,y each pixel
-			pixel.y = y;
+			pixel.x = x; pixel.y = y;
+
 			SDL_FillRect(psurface, &pixel, colour); 
 			i += 3;
 		}
@@ -82,6 +84,7 @@ int main() {
 	// MacOS requires program to poll the UI loop to stay visible
 	SDL_Event e;
 	int running = 1;
+
 	while (running) {
 		while (SDL_PollEvent(&e)) { 
 			if (e.type == SDL_QUIT) running = 0;
