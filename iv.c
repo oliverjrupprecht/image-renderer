@@ -67,9 +67,9 @@ int main() {
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) { 
 			colour = SDL_MapRGB(psurface->format,
-		       				blob[i+2], // rgb
-						blob[i+2],
-		       				blob[i+2]); 
+		       				blob[i], // r
+						blob[i+1], // g
+		       				blob[i+2]); // b
 
 			pixel.x = x; // updates x,y each pixel
 			pixel.y = y;
